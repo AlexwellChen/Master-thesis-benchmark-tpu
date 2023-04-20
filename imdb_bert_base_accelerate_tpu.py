@@ -68,6 +68,9 @@ def data_process():
 def training_function(train_dataloader, test_dataloader, eval_dataloader):
     # Initialize accelerator
     accelerator = Accelerator()
+    print("=========================")
+    print(accelerator.state)
+    print("=========================")
     model = AutoModelForSequenceClassification.from_pretrained("bert-base-cased", num_labels=2)
 
     # Instantiate optimizer
