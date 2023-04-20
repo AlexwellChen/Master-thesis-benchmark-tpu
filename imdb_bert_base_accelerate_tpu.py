@@ -28,6 +28,7 @@ hyperparameters = {
     "save_steps": 500,
     "save_total_limit": 2,
     "seed": 42,
+    "num_epochs": 3
 }
 
 def data_process():
