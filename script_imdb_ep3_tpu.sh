@@ -1,7 +1,7 @@
 clear
 echo "-----------------------Benchmark start------------------------"
-accelerate launch --config_file ./accelerate_config/imdb_bert_base_acc_tpu.yaml \
-         ./benchmark/imdb_bert_base_accelerate_tpu.py \
+accelerate launch --config_file ./imdb_bert_base_acc_tpu.yaml \
+         ./imdb_bert_base_accelerate_tpu.py \
 echo "-----------------------TPU data parallel done------------------------"
 
 
