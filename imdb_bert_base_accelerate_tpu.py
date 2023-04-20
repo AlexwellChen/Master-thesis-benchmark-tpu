@@ -15,8 +15,8 @@ import datasets
 from accelerate import Accelerator
 
 hyperparameters = {
-    "train_batch_size": 32,
-    "eval_batch_size": 32,
+    "train_batch_size": 16,
+    "eval_batch_size": 16,
     "learning_rate": 2e-5,
     "num_train_epochs": 3,
     "weight_decay": 0.01,
