@@ -121,7 +121,6 @@ def training_function(train_dataloader, test_dataloader, eval_dataloader):
     eval_accuracy /= len(test_dataloader)
     print(f"Test Loss {loss} - Accuracy {accuracy}")
 
-if __name__ == "__main__":
-    # dataset
-    train_dataloader, test_dataloader, eval_dataloader = data_process()
-    training_function(train_dataloader, test_dataloader, eval_dataloader)
+
+train_dataloader, test_dataloader, eval_dataloader = data_process()
+training_function(train_dataloader, test_dataloader, eval_dataloader)
