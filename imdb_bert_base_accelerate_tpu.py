@@ -15,8 +15,8 @@ import datasets
 from accelerate import Accelerator
 
 hyperparameters = {
-    "train_batch_size": 8,
-    "eval_batch_size": 8,
+    "train_batch_size": 32,
+    "eval_batch_size": 32,
     "learning_rate": 2e-5,
     "num_train_epochs": 3,
     "weight_decay": 0.01,
@@ -58,9 +58,9 @@ def data_process():
     test_dataset.set_format(type='torch', columns=['input_ids', 'token_type_ids', 'attention_mask', 'labels'])
     eval_dataset.set_format(type='torch', columns=['input_ids', 'token_type_ids', 'attention_mask', 'labels'])
 
-    train_dataloader = torch.utils.data.DataLoader(train_dataset, batch_size=hyperparameters["train_batch_size"]*8, shuffle=True)
-    test_dataloader = torch.utils.data.DataLoader(test_dataset, batch_size=hyperparameters["eval_batch_size"]*8, shuffle=False)
-    eval_dataloader = torch.utils.data.DataLoader(eval_dataset, batch_size=hyperparameters["eval_batch_size"]*8, shuffle=False)
+    train_dataloader = torch.utils.data.DataLoader(train_dataset, batch_size=hyperparameters["train_batch_size"], shuffle=True)
+    test_dataloader = torch.utils.data.DataLoader(test_dataset, batch_size=hyperparameters["eval_batch_size"], shuffle=False)
+    eval_dataloader = torch.utils.data.DataLoader(eval_dataset, batch_size=hyperparameters["eval_batch_size"], shuffle=False)
 
     return train_dataloader, test_dataloader, eval_dataloader
 
