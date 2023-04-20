@@ -58,9 +58,9 @@ def data_process():
     test_dataset.set_format(type='torch', columns=['input_ids', 'token_type_ids', 'attention_mask', 'labels'])
     eval_dataset.set_format(type='torch', columns=['input_ids', 'token_type_ids', 'attention_mask', 'labels'])
 
-    train_dataloader = torch.utils.data.DataLoader(train_dataset, batch_size=hyperparameters["train_batch_size"], shuffle=True)
-    test_dataloader = torch.utils.data.DataLoader(test_dataset, batch_size=hyperparameters["eval_batch_size"], shuffle=False)
-    eval_dataloader = torch.utils.data.DataLoader(eval_dataset, batch_size=hyperparameters["eval_batch_size"], shuffle=False)
+    train_dataloader = torch.utils.data.DataLoader(train_dataset, batch_size=hyperparameters["train_batch_size"]*8, shuffle=True)
+    test_dataloader = torch.utils.data.DataLoader(test_dataset, batch_size=hyperparameters["eval_batch_size"]*8, shuffle=False)
+    eval_dataloader = torch.utils.data.DataLoader(eval_dataset, batch_size=hyperparameters["eval_batch_size"]*8, shuffle=False)
 
     return train_dataloader, test_dataloader, eval_dataloader
 
@@ -96,19 +96,21 @@ def training_function(train_dataloader, test_dataloader, eval_dataloader):
             optimizer.zero_grad()
             progess_bar.update(1)
 
-            if step % 100 == 0:
-                print(f"Epoch {epoch} - Step {step} - Loss {loss}")
+            if step % 100 == 0 and step != 0:
+                print(f"Epoch {epoch+1} - Step {step+1} - Loss {loss}")
         # We evaluate the model at the end of each epoch
         model.eval()
         eval_accuracy = 0
+        validation_losses = []
         for step, batch in enumerate(eval_dataloader):
             with torch.no_grad():
                 outputs = model(**batch)
                 loss = outputs.loss
+                validation_losses.append(accelerator.gather(loss))
                 accuracy = outputs.accuracy
             eval_accuracy += accuracy
         eval_accuracy /= len(eval_dataloader)
-        print(f"Epoch {epoch} - validation Loss {loss} - Accuracy {accuracy}")
+        print(f"Epoch {epoch+1} - validation Loss {sum(validation_losses) / len(validation_losses)} - Accuracy {accuracy}")
     
     # test the model
     model.eval()
